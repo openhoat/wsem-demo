@@ -72,7 +72,7 @@ app.get('/', function (req, res) {
 httpServer = http.createServer(app);
 // Http server start
 httpServer.listen(config.listenPort, config.listenAddress, function () {
-  verbose && console.log('Express server listening on port %s', app.get('port'));
+  verbose && console.log('http server listening on %s:%s', config.listenAddress, config.listenPort);
 });
 
 // Web socket server start
