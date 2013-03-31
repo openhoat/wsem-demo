@@ -29,10 +29,10 @@ wsem = new WsEventMgr(/*{           // Default values
 
 app.set('env', process.env.NODE_ENV || 'production');
 
-verbose =  app.get('env') === 'development';
+verbose = app.get('env') === 'development';
 
 app.configure('all', function () {
-  app.set('port', process.env.PORT || config.listenPort);
+  app.set('port', config.listenPort);
   app.set('views', config.viewsDir);
   app.engine('html', ejs.renderFile);
   app.set('view engine', 'html');
@@ -71,12 +71,12 @@ app.get('/', function (req, res) {
 // Http server creation
 httpServer = http.createServer(app);
 // Http server start
-httpServer.listen(app.get('port'), function () {
+httpServer.listen(config.listenPort, config.listenAddress, function () {
   verbose && console.log('Express server listening on port %s', app.get('port'));
 });
 
 // Web socket server start
-ioServer = io.listen(httpServer, { log: 'development' === app.get('env') });
+ioServer = io.listen(httpServer, { log: verbose });
 
 // We want to be warned when a client is registering the 'time' event
 wsem.addListener('time', function () {
