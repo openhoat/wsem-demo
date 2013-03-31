@@ -12,6 +12,10 @@ socket = io.connect(wsAddress);
 // Wsem creation
 wsem = new WsEventMgr(socket);
 
+wsem.on('hello', function (data) {
+  console.log('data :', data);
+});
+
 // We want to receive 'time' events
 wsem.on('time', function (time) {
   document.getElementById('timeValueContainer').innerText = time;

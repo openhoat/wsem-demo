@@ -6,7 +6,7 @@ var path = require('path')
   , WsEventMgr = require('wsem')
   , util = require('./lib/util')
   , config = require('./config')
-  , httpServer, ioServer, app, intervalId, verbose;
+  , httpServer, ioServer, app, wsem, intervalId, verbose;
 
 config.listenAddress = process.env.OPENSHIFT_NODEJS_IP || config.listenAddress || '127.0.0.1';
 config.listenPort = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || config.listenPort || 3000;
@@ -76,6 +76,10 @@ httpServer.listen(config.listenPort, config.listenAddress, function () {
 
   // Web socket server start
   ioServer = io.listen(httpServer, { log: verbose });
+
+  setInterval(function(){
+    wsem.emit('hello', 'world!');
+  }, 3000);
 
   // We want to be warned when a client is registering the 'time' event
   wsem.addListener('time', function () {
