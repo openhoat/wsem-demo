@@ -1,7 +1,13 @@
-var socket, wsem;
+var socket, wsAddress, wsem;
 
 // Web socket connect
-socket = io.connect(window.location.origin);
+
+if (/\.rhcloud\.com$/.test(window.location.hostname)) {
+  wsAddress = 'http://' + window.location.hostname + ':' + 8000;
+} else {
+  wsAddress = window.location.origin;
+}
+socket = io.connect(wsAddress);
 
 // Wsem creation
 wsem = new WsEventMgr(socket);

@@ -8,7 +8,8 @@ var path = require('path')
   , config = require('./config')
   , httpServer, ioServer, app, intervalId, verbose;
 
-config.listenPort = config.listenPort || 3000;
+config.listenAddress = process.env.OPENSHIFT_NODEJS_IP || config.listenAddress || '127.0.0.1';
+config.listenPort = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || config.listenPort || 3000;
 config.viewsDir = config.viewsDir || path.join(config.baseDir, '/views');
 config.lessDir = config.lessDir || path.join(config.baseDir, 'styles');
 config.staticDir = config.staticDir || path.join(config.baseDir, 'static');
