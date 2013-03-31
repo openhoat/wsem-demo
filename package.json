@@ -1,9 +1,8 @@
 {
   "name": "wsem-demo",
   "version": "0.0.1",
-  "description": "Simple module to manage events between web socket clients",
+  "description": "Simple demo of wsem module",
   "homepage": "https://github.com/openhoat/wsem",
-  "main": "lib/wsem.js",
   "author": {
     "name": "Olivier Penhoat",
     "email": "openhoat@gmail.com"
