@@ -1,0 +1,5 @@
+html{background-color:#123456;}
+body{width:550px;background-color:white;margin:0 auto;margin-top:20px;padding:10px 20px;border-radius:10px;}body>div{border-top:1px dotted black;margin:20px auto;}body>div>h3{color:#49f;margin-top:20px;margin-bottom:20px;}
+h1{text-align:center;color:#777;}
+#timeContainer{font-size:1.4em;}
+#timeValueContainer{font-weight:bold;}
