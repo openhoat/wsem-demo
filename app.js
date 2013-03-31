@@ -73,35 +73,35 @@ httpServer = http.createServer(app);
 // Http server start
 httpServer.listen(config.listenPort, config.listenAddress, function () {
   verbose && console.log('http server listening on %s:%s', config.listenAddress, config.listenPort);
-});
 
-// Web socket server start
-ioServer = io.listen(httpServer, { log: verbose });
+  // Web socket server start
+  ioServer = io.listen(httpServer, { log: verbose });
 
-// We want to be warned when a client is registering the 'time' event
-wsem.addListener('time', function () {
-  if (wsem.hasClientRegistration('time')) {
-    if (!intervalId) {
-      verbose && console.log('starting time streaming');
-      // Every second we send the time to registered clients
-      intervalId = setInterval(function () {
-        var currentTime = util.dateFormat(new Date(), '%H:%M:%S');
-        verbose && console.log('sending current time');
-        wsem.emit('time', currentTime);
-      }, 1000);
+  // We want to be warned when a client is registering the 'time' event
+  wsem.addListener('time', function () {
+    if (wsem.hasClientRegistration('time')) {
+      if (!intervalId) {
+        verbose && console.log('starting time streaming');
+        // Every second we send the time to registered clients
+        intervalId = setInterval(function () {
+          var currentTime = util.dateFormat(new Date(), '%H:%M:%S');
+          verbose && console.log('sending current time');
+          wsem.emit('time', currentTime);
+        }, 1000);
+      }
+    } else {
+      verbose && console.log('stopping time streaming');
+      clearInterval(intervalId);
+      intervalId = null;
     }
-  } else {
-    verbose && console.log('stopping time streaming');
-    clearInterval(intervalId);
-    intervalId = null;
-  }
-});
+  });
 
-// Wsem start
-wsem.start(ioServer, function (socket) {
-  // When a 'todo' is received from a client, we send it to all clients registered for that wsem event
-  socket.on('todo', function (todo) {
-    verbose && console.log('new todo :', todo);
-    wsem.emit('todo', todo);
+  // Wsem start
+  wsem.start(ioServer, function (socket) {
+    // When a 'todo' is received from a client, we send it to all clients registered for that wsem event
+    socket.on('todo', function (todo) {
+      verbose && console.log('new todo :', todo);
+      wsem.emit('todo', todo);
+    });
   });
 });
